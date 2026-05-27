@@ -1,5 +1,6 @@
 return {
   backends = { "lsp", "treesitter", "markdown", "asciidoc", "man" },
+  disable_max_lines = 50000,
 
   layout = {
     min_width = 28,
