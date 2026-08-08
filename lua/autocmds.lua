@@ -85,12 +85,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
       end
 
       local start_dir, from_dir_arg = get_session_start_dir()
-      if from_dir_arg and start_dir ~= vim.fn.getcwd() then
+      if not from_dir_arg then
+        return
+      end
+
+      if start_dir ~= vim.fn.getcwd() then
         vim.cmd("cd " .. vim.fn.fnameescape(start_dir))
       end
 
-      local restore_dir = find_nearest_session_dir(start_dir, from_dir_arg)
-      if vim.fn.argc() > 0 and restore_dir then
+      local restore_dir = find_nearest_session_dir(start_dir, true)
+      if restore_dir then
         pcall(function()
           auto_session.restore_session(restore_dir)
         end)
