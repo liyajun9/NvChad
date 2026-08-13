@@ -3,13 +3,16 @@ return {
   disable_max_lines = 50000,
 
   layout = {
-    min_width = 28,
-    max_width = 40,
+    width = 30,
+    min_width = 30,
+    max_width = 30,
     placement = "edge",
     default_direction = "right",
+    resize_to_content = false,
+    preserve_equality = false,
   },
 
-  attach_mode = "global",
+  attach_mode = "window",
   close_on_select = false,
 
   show_guides = true,

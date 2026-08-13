@@ -17,6 +17,8 @@ opt.mouse = "a"
 opt.clipboard = "unnamedplus"
 opt.selection = "exclusive"
 opt.showtabline = 2
+opt.equalalways = false
+opt.winminwidth = 10
 
 opt.scrolloff = 8
 -- local o = vim.o
@@ -28,4 +30,5 @@ opt.foldlevel = 99
 opt.foldenable = true
 opt.foldlevelstart = 99
 
-opt.sessionoptions = "blank,buffers,curdir,globals,help,tabpages,winsize,winpos,localoptions"
+-- Keep sessions portable across differently-sized terminal windows.
+opt.sessionoptions = "blank,buffers,curdir,globals,help,tabpages"

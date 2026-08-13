@@ -13,6 +13,24 @@ return {
   session_lens = {
     load_on_setup = false,
   },
+  pre_save_cmds = {
+    function()
+      pcall(vim.cmd, "AerialClose")
+
+      local ok_tree, nvim_tree = pcall(require, "nvim-tree.api")
+      if ok_tree and nvim_tree.tree.is_visible() then
+        nvim_tree.tree.close()
+      end
+    end,
+  },
+  post_restore_cmds = {
+    function()
+      vim.defer_fn(function()
+        pcall(vim.cmd, "silent! only")
+        pcall(vim.cmd, "redraw!")
+      end, 50)
+    end,
+  },
   save_extra_data = function()
     local data = vim.g.session_sidebar_state
     if type(data) ~= "table" then
@@ -34,6 +52,7 @@ return {
         local ok_tree, nvim_tree = pcall(require, "nvim-tree.api")
         if ok_tree and not nvim_tree.tree.is_visible() then
           nvim_tree.tree.open()
+          pcall(nvim_tree.tree.resize, 30)
         end
       end
     end, 200)
