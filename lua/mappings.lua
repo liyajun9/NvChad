@@ -34,6 +34,9 @@ map("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat opt
 map("v", "<leader>cd", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat docs" })
 map("v", "<leader>ct", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat tests" })
 
+-- 在 Normal 模式下按 <leader>mp 开启/关闭预览
+map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown Preview" })
+
 -- auto copy to system clipboard while selection
 --[[
 vim.api.nvim_create_autocmd("ModeChanged", {

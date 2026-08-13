@@ -83,6 +83,19 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 
+  -- 添加 markdown-preview.nvim
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && yarn install",
+    config = function()
+      -- 可选：自定义全局变量（例如自动打开浏览器）
+      vim.g.mkdp_auto_start = 0
+      vim.g.mkdp_auto_close = 1
+    end,
+  },
+
   --{
     --"akinsho/toggleterm.nvim",
     --version = "*",
