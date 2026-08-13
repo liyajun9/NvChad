@@ -15,6 +15,11 @@ return {
   },
   pre_save_cmds = {
     function()
+      local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p"):gsub("/$", "")
+      if cwd ~= vim.fn.getcwd() then
+        vim.cmd("cd " .. vim.fn.fnameescape(cwd))
+      end
+
       pcall(vim.cmd, "AerialClose")
 
       local ok_tree, nvim_tree = pcall(require, "nvim-tree.api")
