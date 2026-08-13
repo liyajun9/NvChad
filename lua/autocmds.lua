@@ -1,4 +1,5 @@
 require "nvchad.autocmds"
+require("configs.tabufline_hover").setup()
 
 if vim.treesitter and vim.treesitter.foldexpr then
   vim.treesitter.foldexpr = function()

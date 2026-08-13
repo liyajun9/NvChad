@@ -19,6 +19,8 @@ M.ui = {
   tabufline = {
     enabled = true,
     lazyload = false,
+    bufwidth = 24,
+    modules = require "configs.tabufline_modules",
   },
   statusline = {
     order = { "mode", "file", "git", "symbol", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "encoding", "cursor" },

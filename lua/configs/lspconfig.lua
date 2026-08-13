@@ -32,8 +32,14 @@ vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local opts = { buffer = args.buf }
+    local rename_opts = { buffer = args.buf, desc = "LSP Rename" }
+    local rename = require "nvchad.lsp.renamer"
+
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<leader>cR", rename, rename_opts)
+    vim.keymap.set("n", "<leader>rn", rename, rename_opts)
+    vim.keymap.set("n", "<leader>ra", rename, rename_opts)
   end,
 })
 
