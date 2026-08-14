@@ -34,12 +34,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local opts = { buffer = args.buf }
     local rename_opts = { buffer = args.buf, desc = "LSP Rename" }
     local rename = require "nvchad.lsp.renamer"
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
     vim.keymap.set("n", "<leader>cR", rename, rename_opts)
     vim.keymap.set("n", "<leader>rn", rename, rename_opts)
     vim.keymap.set("n", "<leader>ra", rename, rename_opts)
+
+    if client and client.name == "clangd" then
+      vim.keymap.set("n", "<leader>ch", "<cmd>LspClangdSwitchSourceHeader<cr>", {
+        buffer = args.buf,
+        desc = "Switch C/C++ source/header",
+      })
+    end
   end,
 })
 
