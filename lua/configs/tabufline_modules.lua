@@ -9,6 +9,50 @@ local btn = utils.btn
 local style_buf = utils.style_buf
 
 local M = {}
+local goto_buf_patched = false
+
+local function is_regular_edit_win(winid)
+  if not vim.api.nvim_win_is_valid(winid) then
+    return false
+  end
+
+  local bufnr = api.nvim_win_get_buf(winid)
+  local buftype = vim.bo[bufnr].buftype
+  local filetype = vim.bo[bufnr].filetype
+
+  return buftype == "" and filetype ~= "NvimTree" and filetype ~= "aerial"
+end
+
+local function patch_goto_buf()
+  if goto_buf_patched then
+    return
+  end
+
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if not ok or type(tabufline.goto_buf) ~= "function" then
+    return
+  end
+
+  local original_goto_buf = tabufline.goto_buf
+
+  tabufline.goto_buf = function(bufnr)
+    local cur_win = api.nvim_get_current_win()
+    if not is_regular_edit_win(cur_win) then
+      for _, winid in ipairs(api.nvim_tabpage_list_wins(0)) do
+        if is_regular_edit_win(winid) then
+          api.nvim_set_current_win(winid)
+          break
+        end
+      end
+    end
+
+    return original_goto_buf(bufnr)
+  end
+
+  goto_buf_patched = true
+end
+
+patch_goto_buf()
 
 local function tabufline_opts()
   return require("nvconfig").ui.tabufline
