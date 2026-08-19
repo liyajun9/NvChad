@@ -6,6 +6,42 @@ local map = vim.keymap.set
 local unmap = vim.keymap.del
 
 map("n", "gl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+local function is_edit_window(winid)
+  if not vim.api.nvim_win_is_valid(winid) then
+    return false
+  end
+
+  local config = vim.api.nvim_win_get_config(winid)
+  if config.relative ~= "" then
+    return false
+  end
+
+  local bufnr = vim.api.nvim_win_get_buf(winid)
+  local filetype = vim.bo[bufnr].filetype
+  return vim.bo[bufnr].buftype == "" and filetype ~= "NvimTree" and filetype ~= "aerial"
+end
+
+map("n", "<leader>cq", function()
+  local target_win
+  local current_win = vim.api.nvim_get_current_win()
+
+  if is_edit_window(current_win) then
+    target_win = current_win
+  else
+    for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if is_edit_window(winid) then
+        target_win = winid
+        break
+      end
+    end
+  end
+
+  pcall(vim.cmd, "cclose")
+
+  if target_win and vim.api.nvim_win_is_valid(target_win) then
+    vim.api.nvim_set_current_win(target_win)
+  end
+end, { desc = "Close quickfix" })
 
 -- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
