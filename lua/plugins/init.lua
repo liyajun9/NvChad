@@ -21,6 +21,13 @@ return {
   },
 
   {
+    "windwp/nvim-autopairs",
+    opts = {
+      map_cr = false,
+    },
+  },
+
+  {
     "https://codeberg.org/FelipeLema/cmp-async-path.git",
     enabled = false,
   },
