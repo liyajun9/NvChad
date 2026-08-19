@@ -29,6 +29,15 @@ vim.lsp.config("clangd", {
 local servers = { "html", "cssls", "clangd", "cmake", "pyright", "lua_ls", "bashls", "marksman", "lemminx", "yamlls" }
 vim.lsp.enable(servers)
 
+local document_highlight_group = vim.api.nvim_create_augroup("user_lsp_document_highlight", { clear = true })
+
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufLeave" }, {
+  group = document_highlight_group,
+  callback = function()
+    vim.lsp.buf.clear_references()
+  end,
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local opts = { buffer = args.buf }
@@ -44,6 +53,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {
       buffer = args.buf,
       desc = "LSP Code Action",
+    })
+    vim.keymap.set({ "n", "v" }, "<2-LeftMouse>", function()
+      for _, active_client in ipairs(vim.lsp.get_clients { bufnr = args.buf }) do
+        if active_client:supports_method("textDocument/documentHighlight", args.buf) then
+          vim.lsp.buf.document_highlight()
+          return
+        end
+      end
+    end, {
+      buffer = args.buf,
+      desc = "Highlight symbol references",
     })
 
     if client and client.name == "clangd" then
