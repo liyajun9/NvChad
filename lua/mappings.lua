@@ -43,6 +43,14 @@ map("n", "<leader>cq", function()
   end
 end, { desc = "Close quickfix" })
 
+map("n", "<leader>b[", function()
+  require("nvchad.tabufline").move_buf(-1)
+end, { desc = "Move buffer tab left" })
+
+map("n", "<leader>b]", function()
+  require("nvchad.tabufline").move_buf(1)
+end, { desc = "Move buffer tab right" })
+
 -- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
