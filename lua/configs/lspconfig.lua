@@ -59,6 +59,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
       buffer = args.buf,
       desc = "LSP References (Telescope)",
     })
+    vim.keymap.set("n", "grR", "<cmd>Trouble lsp_references toggle focus=true filter.buf=0<cr>", {
+      buffer = args.buf,
+      desc = "LSP References (Trouble)",
+    })
+    vim.keymap.set("n", "grI", "<cmd>Trouble lsp_incoming_calls toggle focus=true<cr>", {
+      buffer = args.buf,
+      desc = "LSP Incoming Calls (Trouble)",
+    })
+    vim.keymap.set("n", "grO", "<cmd>Trouble lsp_outgoing_calls toggle focus=true<cr>", {
+      buffer = args.buf,
+      desc = "LSP Outgoing Calls (Trouble)",
+    })
     vim.keymap.set("n", "<leader>cR", rename, rename_opts)
     vim.keymap.set("n", "<leader>rn", rename, rename_opts)
     vim.keymap.set("n", "<leader>ra", rename, rename_opts)

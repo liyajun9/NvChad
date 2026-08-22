@@ -42,6 +42,20 @@ return {
   },
 
   {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    opts = {
+      preview = {
+        type = "split",
+        relative = "win",
+        position = "right",
+        size = 0.5,
+        scratch = false,
+      },
+    },
+  },
+
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
