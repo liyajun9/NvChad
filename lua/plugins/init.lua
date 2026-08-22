@@ -35,6 +35,7 @@ return {
   {
     "stevearc/aerial.nvim",
     cmd = { "AerialOpen", "AerialOpenAll", "AerialToggle", "AerialNavToggle" },
+    branch = "nvim-0.11",
     opts = require("configs.aerial"),
     keys = {
       { "<C-\\>", "<cmd>AerialToggle<cr>", desc = "Toggle Symbol Outline" },
