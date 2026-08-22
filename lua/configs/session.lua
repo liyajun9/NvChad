@@ -55,9 +55,21 @@ return {
     vim.defer_fn(function()
       if data.nvim_tree_open then
         local ok_tree, nvim_tree = pcall(require, "nvim-tree.api")
-        if ok_tree and not nvim_tree.tree.is_visible() then
-          nvim_tree.tree.open()
-          pcall(nvim_tree.tree.resize, 30)
+        if ok_tree then
+          if not nvim_tree.tree.is_visible() then
+            nvim_tree.tree.open()
+          end
+
+          -- Apply the width after NvimTree finishes its own layout pass.
+          vim.defer_fn(function()
+            for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+              local buf = vim.api.nvim_win_get_buf(win)
+              if vim.bo[buf].filetype == "NvimTree" then
+                pcall(vim.api.nvim_win_set_width, win, 30)
+                break
+              end
+            end
+          end, 100)
         end
       end
     end, 200)

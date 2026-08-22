@@ -24,6 +24,11 @@ return {
       opts.view = vim.tbl_deep_extend("force", opts.view or {}, {
         preserve_window_proportions = false,
       })
+      opts.actions = vim.tbl_deep_extend("force", opts.actions or {}, {
+        open_file = {
+          resize_window = false,
+        },
+      })
       return opts
     end,
   },
