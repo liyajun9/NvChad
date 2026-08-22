@@ -14,6 +14,11 @@ return {
   },
 
   {
+    "folke/which-key.nvim",
+    lazy = false,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     opts = function()
       return require "configs.cmp"
