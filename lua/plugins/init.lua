@@ -19,6 +19,16 @@ return {
   },
 
   {
+    "nvim-tree/nvim-tree.lua",
+    opts = function(_, opts)
+      opts.view = vim.tbl_deep_extend("force", opts.view or {}, {
+        preserve_window_proportions = false,
+      })
+      return opts
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     opts = function()
       return require "configs.cmp"
@@ -51,12 +61,22 @@ return {
     "folke/trouble.nvim",
     cmd = "Trouble",
     opts = {
+      win = {
+        wo = {
+          winfixwidth = false,
+          winfixheight = false,
+        },
+      },
       preview = {
         type = "split",
         relative = "win",
         position = "right",
         size = 0.5,
         scratch = false,
+        wo = {
+          winfixwidth = false,
+          winfixheight = false,
+        },
       },
       modes = {
         lsp_references = {

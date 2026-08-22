@@ -25,13 +25,15 @@ return {
   disable_max_lines = 50000,
 
   layout = {
-    width = 30,
-    min_width = 30,
-    max_width = 30,
+    min_width = 10,
     placement = "edge",
     default_direction = "right",
     resize_to_content = false,
     preserve_equality = false,
+    win_opts = {
+      winfixwidth = false,
+      winfixheight = false,
+    },
   },
 
   attach_mode = "window",

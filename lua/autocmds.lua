@@ -1,6 +1,23 @@
 require "nvchad.autocmds"
 require("configs.tabufline_hover").setup()
 
+local resizeable_sidebar_filetypes = {
+  NvimTree = true,
+  aerial = true,
+  trouble = true,
+}
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+  callback = function(args)
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_win_get_buf(win)
+    if resizeable_sidebar_filetypes[vim.bo[buf].filetype] then
+      vim.api.nvim_set_option_value("winfixwidth", false, { scope = "local", win = win })
+      vim.api.nvim_set_option_value("winfixheight", false, { scope = "local", win = win })
+    end
+  end,
+})
+
 if vim.treesitter and vim.treesitter.foldexpr then
   vim.treesitter.foldexpr = function()
     return "0"
