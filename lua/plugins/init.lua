@@ -52,7 +52,45 @@ return {
         size = 0.5,
         scratch = false,
       },
+      modes = {
+        lsp_references = {
+          auto_refresh = false,
+          follow = false,
+          pinned = true,
+        },
+        lsp_incoming_calls = {
+          auto_refresh = false,
+          follow = false,
+          pinned = true,
+        },
+        lsp_outgoing_calls = {
+          auto_refresh = false,
+          follow = false,
+          pinned = true,
+        },
+      },
     },
+    config = function(_, opts)
+      require("trouble").setup(opts)
+
+      local trouble_window = require "trouble.view.window"
+      if not trouble_window._nvim_user_winleave_patched then
+        local on = trouble_window.on
+
+        trouble_window.on = function(self, events, callback, event_opts)
+          local is_trouble_window = self.opts
+            and self.opts.bo
+            and self.opts.bo.filetype == "trouble"
+
+          if is_trouble_window and events == "WinLeave" then
+            return
+          end
+
+          return on(self, events, callback, event_opts)
+        end
+        trouble_window._nvim_user_winleave_patched = true
+      end
+    end,
   },
 
   {
