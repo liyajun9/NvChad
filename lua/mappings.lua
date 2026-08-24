@@ -6,6 +6,13 @@ local map = vim.keymap.set
 local unmap = vim.keymap.del
 
 map("n", "gl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+
+-- Ctrl-I is sent as Tab by terminals; keep it for jump-list forward.
+map("n", "<C-i>", function()
+  local key = vim.api.nvim_replace_termcodes("<C-i>", true, false, true)
+  vim.api.nvim_feedkeys(key, "n", false)
+end, { desc = "Jump forward" })
+
 local function is_edit_window(winid)
   if not vim.api.nvim_win_is_valid(winid) then
     return false
