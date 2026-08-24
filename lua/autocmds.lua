@@ -7,13 +7,41 @@ local resizeable_sidebar_filetypes = {
   trouble = true,
 }
 
-vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+local function unlock_nvim_tree_layout()
+  local ok_view_state, view_state = pcall(require, "nvim-tree.view-state")
+  if ok_view_state and view_state.Active then
+    view_state.Active.winopts.winfixwidth = false
+    view_state.Active.winopts.winfixheight = false
+  end
+end
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "NvimTreeSetup",
+  once = true,
+  callback = unlock_nvim_tree_layout,
+})
+
+-- This file is loaded after lazy plugins, so setup may have already fired.
+if vim.g.NvimTreeSetup == 1 then
+  unlock_nvim_tree_layout()
+end
+
+vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter", "WinEnter" }, {
   callback = function(args)
     local win = vim.api.nvim_get_current_win()
     local buf = vim.api.nvim_win_get_buf(win)
     if resizeable_sidebar_filetypes[vim.bo[buf].filetype] then
       vim.api.nvim_set_option_value("winfixwidth", false, { scope = "local", win = win })
       vim.api.nvim_set_option_value("winfixheight", false, { scope = "local", win = win })
+    end
+
+    if vim.bo[buf].filetype == "NvimTree" then
+      local winhighlight = vim.api.nvim_get_option_value("winhighlight", { scope = "local", win = win })
+      winhighlight = winhighlight:gsub("WinSeparator:NvimTreeWinSeparator", "WinSeparator:WinSeparator")
+      vim.api.nvim_set_option_value("winhighlight", winhighlight, { scope = "local", win = win })
+
+      local separator_hl = vim.api.nvim_get_hl(0, { name = "WinSeparator", link = false })
+      vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", separator_hl)
     end
   end,
 })

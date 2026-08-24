@@ -22,7 +22,10 @@ return {
     "nvim-tree/nvim-tree.lua",
     opts = function(_, opts)
       opts.view = vim.tbl_deep_extend("force", opts.view or {}, {
-        preserve_window_proportions = false,
+        preserve_window_proportions = true,
+        width = function()
+          return math.floor(vim.o.columns * 0.18)
+        end,
       })
       opts.actions = vim.tbl_deep_extend("force", opts.actions or {}, {
         open_file = {
