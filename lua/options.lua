@@ -30,5 +30,14 @@ opt.foldlevel = 99
 opt.foldenable = true
 opt.foldlevelstart = 99
 
+-- Do not continue comments when opening or wrapping lines.
+opt.formatoptions:remove({ "c", "r", "o" })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+  end,
+})
+
 -- Keep sessions portable across differently-sized terminal windows.
 opt.sessionoptions = "blank,buffers,curdir,globals,help,tabpages"
