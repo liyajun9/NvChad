@@ -430,6 +430,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>ps", vim.lsp.buf.signature_help, {
+      buffer = args.buf,
+      desc = "LSP Signature Help",
+    })
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
     vim.keymap.set("n", "grr", function()
       require("telescope.builtin").lsp_references {
