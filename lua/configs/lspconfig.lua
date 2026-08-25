@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       buffer = args.buf,
       desc = "LSP References (Telescope)",
     })
-    vim.keymap.set("n", "grR", "<cmd>Trouble lsp_references toggle focus=true filter.buf=0<cr>", {
+    vim.keymap.set("n", "grR", "<cmd>Trouble lsp_references toggle focus=true<cr>", {
       buffer = args.buf,
       desc = "LSP References (Trouble)",
     })
