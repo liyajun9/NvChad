@@ -25,7 +25,7 @@ vim.lsp.config("clangd", {
     "--background-index",
     "--clang-tidy",
     "--completion-style=detailed",
-    "--header-insertion=never",
+    "--header-insertion=iwyu",
   },
   capabilities = clangd_capabilities,
 })
