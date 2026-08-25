@@ -32,6 +32,10 @@ return {
           resize_window = false,
         },
       })
+      opts.filesystem_watchers = vim.tbl_deep_extend("force", opts.filesystem_watchers or {}, {
+        enable = false,
+      })
+      opts.reload_on_bufenter = true
       return opts
     end,
   },

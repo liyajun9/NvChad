@@ -46,6 +46,19 @@ vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter", "WinEnter" }, {
   end,
 })
 
+-- Refresh Git decorations after commits made outside Neovim.
+vim.api.nvim_create_autocmd("FocusGained", {
+  group = vim.api.nvim_create_augroup("UserNvimTreeGitRefresh", { clear = true }),
+  callback = function()
+    vim.defer_fn(function()
+      local ok_tree, nvim_tree = pcall(require, "nvim-tree.api")
+      if ok_tree and nvim_tree.tree.is_visible() then
+        pcall(nvim_tree.git.reload)
+      end
+    end, 50)
+  end,
+})
+
 if vim.treesitter and vim.treesitter.foldexpr then
   vim.treesitter.foldexpr = function()
     return "0"
