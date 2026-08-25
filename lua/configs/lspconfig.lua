@@ -1,4 +1,5 @@
-require("nvchad.configs.lspconfig").defaults()
+local nvchad_lsp = require "nvchad.configs.lspconfig"
+nvchad_lsp.defaults()
 
 vim.diagnostic.config({
   virtual_text = false,
@@ -15,6 +16,9 @@ vim.diagnostic.config({
   },
 })
 
+local clangd_capabilities = vim.deepcopy(nvchad_lsp.capabilities)
+clangd_capabilities.textDocument.completion.completionItem.snippetSupport = false
+
 vim.lsp.config("clangd", {
   cmd = {
     "/usr/local/opt/llvm@15/bin/clangd",
@@ -23,6 +27,7 @@ vim.lsp.config("clangd", {
     "--completion-style=detailed",
     "--header-insertion=never",
   },
+  capabilities = clangd_capabilities,
 })
 
 
