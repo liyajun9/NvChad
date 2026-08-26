@@ -1,6 +1,23 @@
 require "nvchad.autocmds"
 require("configs.tabufline_hover").setup()
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    pcall(vim.keymap.del, "n", "<leader>o")
+    vim.keymap.set("n", "<leader>o", function()
+      require("nvchad.tabufline").closeAllBufs(false)
+    end, { desc = "Close other buffers" })
+
+    local ok, which_key = pcall(require, "which-key")
+    if ok then
+      which_key.add {
+        { "<leader>o", desc = "Close other buffers", mode = "n" },
+      }
+    end
+  end,
+})
+
 local resizeable_sidebar_filetypes = {
   NvimTree = true,
   aerial = true,
