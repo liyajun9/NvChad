@@ -463,9 +463,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       buffer = args.buf,
       desc = "Peek Definition",
     })
-    vim.keymap.set("n", "<leader>cR", rename, rename_opts)
     vim.keymap.set("n", "<leader>rn", rename, rename_opts)
-    vim.keymap.set("n", "<leader>ra", rename, rename_opts)
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {
       buffer = args.buf,
       desc = "LSP Code Action",
