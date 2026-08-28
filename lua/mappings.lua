@@ -44,11 +44,22 @@ map("n", "<leader>cq", function()
   end
 
   pcall(vim.cmd, "cclose")
+  pcall(vim.cmd, "lclose")
 
   if target_win and vim.api.nvim_win_is_valid(target_win) then
     vim.api.nvim_set_current_win(target_win)
   end
-end, { desc = "Close quickfix" })
+end, { desc = "Close quickfix/location list" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function(args)
+    vim.keymap.set("n", "q", function()
+      pcall(vim.cmd, "cclose")
+      pcall(vim.cmd, "lclose")
+    end, { buffer = args.buf, silent = true, desc = "Close quickfix/location list" })
+  end,
+})
 
 map("n", "<leader>b[", function()
   require("nvchad.tabufline").move_buf(-1)
@@ -69,6 +80,10 @@ pcall(unmap, "n", "<C-c>")
 pcall(unmap, "n", "<leader>h")
 pcall(unmap, "n", "<leader>v")
 pcall(unmap, { "n", "t" }, "<A-v>")
+-- Keep these prefixes exclusively for LSP actions in attached buffers.
+pcall(unmap, "n", "<leader>ra")
+pcall(unmap, "n", "<leader>rn")
+pcall(unmap, "n", "<leader>ch")
 
 map("i", "<C-a>", "<ESC>^i", { desc = "move beginning of line" })
 -- Comment toggle (Ctrl+/)
